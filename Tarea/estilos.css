@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  #miDiv {
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+
+  button {
+    margin: 5px;
+    padding: 8px 12px;
+  }
+
+  #miImagen {
+    width: 150px;
+    height: auto;
+  }
+  
