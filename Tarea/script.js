@@ -1,36 +1,46 @@
+import React, { Fragment, useState } from 'react';
 
-function cambiarContenido() {
-    let div = document.getElementById('miDiv');
-    div.innerHTML = '<strong>Contenido cambiado</strong>';
-  }
+export function TodoItem({ todo, CambiarEstado, EditarTarea }) {
+    const { id, task, completed } = todo;
+    const [modoEdicion, setModoEdicion] = useState(false);
+    const [nuevoTexto, setNuevoTexto] = useState(task);
 
-  document.getElementById('miBoton').addEventListener('click', function () {
-    document.getElementById('miDiv').style.backgroundColor = 'blue';
-  });
+    const fnCambiarEstado = () => {
+        CambiarEstado(id);
+    };
 
+    const fnGuardarEdicion = () => {
+        if (nuevoTexto.trim() === '') return;
+        EditarTarea(id, nuevoTexto.trim());
+        setModoEdicion(false);
+    };
 
-  
-  function cambiarImagen() {
-    let img = document.getElementById('miImagen');
-    let actual = img.getAttribute('src');
-  
-    if (actual.includes('bbb1.png')) {
-      img.setAttribute('src', 'img/nav.jpg'); 
-    } else {
-      img.setAttribute('src', 'img/bbb1.png');
+    if (modoEdicion) {
+        return (
+            <Fragment>
+                <li className="list-group-item">
+                    <input
+                        type="text"
+                        value={nuevoTexto}
+                        onChange={(e) => setNuevoTexto(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                fnGuardarEdicion();
+                            }
+                        }}/>
+                    <button onClick={fnGuardarEdicion}>Guardar</button>
+                </li>
+            </Fragment>
+        );
     }
-  }
-  
-  
 
-  function alertaClick() {
-    alert('Evento ejecutado');
-  }
-  
-  document.getElementById('btnEvento').addEventListener('click', alertaClick);
-  
-  function eliminarEvento() {
-    document.getElementById('btnEvento').removeEventListener('click', alertaClick);
-    alert('Evento eliminado');
-  }
-  
+    return (
+        <Fragment>
+            <li className="list-group-item">
+                <input onChange={fnCambiarEstado} type="checkbox" checked={completed}className='form-check-input me-2'/>    
+                {task}
+                <button onClick={() => setModoEdicion(true)} className="btn btn-sm btn-outline-secondary ms-2">Edittar</button>
+            </li>
+        </Fragment>
+    );
+}
